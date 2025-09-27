@@ -5,15 +5,15 @@
 **Dashboardnya bisa diakses di link berikut:**
 ➡️ [https://ardian.shinyapps.io/ui-ac-id-traffic-light-flow-simulation/](https://ardian.shinyapps.io/ui-ac-id-traffic-light-flow-simulation)
 
-## Konteks
+## ℹ️ Konteks
 
 Seringkali, antrian mobil di persimpangan begitu panjang sehingga pengemudi yang berada jauh di belakang melihat lampu lalu lintas berubah kembali menjadi merah bahkan sebelum mereka sempat bergerak maju. Fenomena ini kompleks dan bergantung pada banyak faktor. Proyek ini berfokus pada kasus jenuh (saturation case), di mana sudah ada antrian panjang mobil yang siap bergerak saat lampu berubah menjadi hijau.
 
-## Pernyataan Masalah
+## 🎯 Pernyataan Masalah
 
 **Berapa banyak mobil yang dapat melewati satu set lampu lalu lintas saat lampu tersebut berubah menjadi hijau selama periode 15 detik?**
 
-## Formulasi Model
+## ⚙️ Formulasi Model
 
 Untuk menjawab pertanyaan di atas, sebuah model simulasi dibangun berdasarkan serangkaian asumsi dan parameter.
 
@@ -39,7 +39,7 @@ Untuk menjawab pertanyaan di atas, sebuah model simulasi dibangun berdasarkan se
 5.  Proses ini menciptakan reaksi berantai ke belakang antrian.
 6.  Sebuah mobil dianggap telah "melewati" persimpangan jika posisi bumper belakangnya telah melewati garis lampu lalu lintas (`position > 0`).
 
-## Solusi
+## 💡 Solusi
 
 Solusi diimplementasikan dalam bentuk **aplikasi web interaktif** yang dibangun menggunakan bahasa pemrograman R dengan framerwork Shiny.
 
@@ -48,7 +48,7 @@ Solusi diimplementasikan dalam bentuk **aplikasi web interaktif** yang dibangun 
 -   **Kontrol Simulasi**: Tombol disediakan untuk menjalankan simulasi langkah-demi-langkah, langsung ke akhir, atau mengatur ulang ke kondisi awal.
 -   **Output**: Sebuah *value box* secara eksplisit menampilkan jumlah total mobil yang telah berhasil melewati persimpangan.
 
-## Analisis untuk Menjawab Pernyataan Masalah
+## 📊 Analisis untuk Menjawab Pernyataan Masalah
 
 Untuk menjawab pertanyaan "Berapa banyak mobil yang bisa lewat dalam 15 detik?", pengguna dapat mengikuti langkah-langkah berikut menggunakan aplikasi:
 
