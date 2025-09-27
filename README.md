@@ -66,7 +66,7 @@ Angka inilah jawaban dari pernyataan masalah untuk parameter yang diberikan. Den
 
 ### 1. Clone Repository
 ```bash
-git clone [https://github.com/Ryslam/ui.ac.id-traffic-light-flow-simulation.git](https://github.com/Ryslam/ui.ac.id-traffic-light-flow-simulation.git)
+git clone https://github.com/Ryslam/ui.ac.id-traffic-light-flow-simulation.git
 cd ui.ac.id-traffic-light-flow-simulation
 ```
 
