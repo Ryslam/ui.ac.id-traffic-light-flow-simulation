@@ -65,21 +65,17 @@ server <- function(input, output, session) {
       id = 1:MAX_CARS,
       position = -(0:(MAX_CARS - 1)) * TOTAL_CAR_SPACE - CAR_LENGTH,
       velocity = 0,
-      status = "stationary",
+      status = "resting",
       reaction_start_time = Inf,
       start_time = Inf
     )
 
-    # At t=0, the first car immediately starts reacting to the green light.
-    cars_df$status[1] <- "reacting"
-    cars_df$reaction_start_time[1] <- 0
-
     initial_state <- cars_df
-    initial_state$time <- 0
+    initial_state$time <- -DT
     
     list(
-      timer = 0,
-      plot_data = list("0" = initial_state),
+      timer = -DT,
+      plot_data = list("-0.5" = initial_state),
       cars_passed = 0,
       cars_df = cars_df,
       is_finished = FALSE
@@ -157,9 +153,15 @@ server <- function(input, output, session) {
     REACTION_TIME <- input$reaction_time
     ACCELERATION <- input$acceleration
 
+    # At t=0, the light turns green and the first car starts reacting.
+    if (t == 0) {
+      cars$status[1] <- "reacting"
+      cars$reaction_start_time[1] <- 0
+    }
+
     for (i in 1:nrow(cars)) {
       # Check if a stationary car should start reacting
-      if (cars$status[i] == "stationary" && i > 1) {
+      if (cars$status[i] == "resting" && i > 1) {
         car_in_front <- cars[i - 1, ]
         # This car starts reacting when the car in front of it *moves*.
         if (car_in_front$status == "moving" && cars$reaction_start_time[i] == Inf) {
@@ -192,6 +194,11 @@ server <- function(input, output, session) {
     current_state <- cars
     current_state$time <- t
     sim_state$plot_data[[as.character(t)]] <- current_state
+    
+    # If the simulation has just reached 15s, mark it as finished.
+    if (sim_state$timer >= 15) {
+      sim_state$is_finished <- TRUE
+    }
   })
 
   # --- Observer for the Finish Simulation Button ---
@@ -210,9 +217,15 @@ server <- function(input, output, session) {
       REACTION_TIME <- input$reaction_time
       ACCELERATION <- input$acceleration
 
+      # At t=0, the light turns green and the first car starts reacting.
+      if (t == 0) {
+        cars$status[1] <- "reacting"
+        cars$reaction_start_time[1] <- 0
+      }
+
       for (i in 1:nrow(cars)) {
         # Check if a stationary car should start reacting
-        if (cars$status[i] == "stationary" && i > 1) {
+        if (cars$status[i] == "resting" && i > 1) {
           car_in_front <- cars[i - 1, ]
           # This car starts reacting when the car in front of it *moves*.
           if (car_in_front$status == "moving" && cars$reaction_start_time[i] == Inf) {
@@ -279,20 +292,22 @@ server <- function(input, output, session) {
       c(-150, 50)
     }
 
+    line_color <- if (sim_state$timer < 0) "red" else "green"
+
     ggplot(plot_data_filtered, aes(x = time, y = position, group = id, color = status)) +
       geom_line(linewidth = 1) +
       geom_point(data = . %>% group_by(id) %>% filter(time == max(time)), size = 3) + # Show current position
-      geom_hline(yintercept = 0, linetype = "dashed", color = "green", linewidth = 1.2) +
-      annotate("text", x = 1, y = 5, label = "Traffic Light Line", color = "green", hjust = 0) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = line_color, linewidth = 1.2) +
+      annotate("text", x = 1, y = 5, label = "Traffic Light Line", color = line_color, hjust = 0) +
       labs(
         title = "Car Position vs. Time",
         x = "Time (seconds)",
         y = "Position (meters)",
         color = NULL
       ) +
-      coord_cartesian(xlim = c(0, 15), ylim = y_limits) +
-      scale_x_continuous(breaks = seq(0, 15, by = 0.5)) +
-      scale_color_manual(values = c("stationary" = "#FFB6B6", "reacting" = "#ADD8E6", "moving" = "#9DC183")) +
+      coord_cartesian(xlim = c(-0.5, 15), ylim = y_limits) +
+      scale_x_continuous(breaks = seq(-0.5, 15, by = 0.5)) +
+      scale_color_manual(values = c("resting" = "#FFB6B6", "reacting" = "#ADD8E6", "moving" = "#9DC183")) +
       theme_minimal() +
       theme(
         plot.title = element_text(size = rel(1.3)),
