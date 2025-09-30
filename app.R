@@ -324,11 +324,8 @@ server <- function(input, output, session) {
     
     p <- ggplot(plot_data_fixed, aes(x = time, y = position, group = id)) +
       geom_line(aes(color = status), linewidth = 0.5) +
-      geom_point(
-        data = current_points_df, 
-        aes(color = status, text = hover_text), 
-        size = 2
-      ) +
+      geom_point(aes(color = status, text = hover_text), size = 1.5, alpha = 0.4) +
+      geom_point(data = current_points_df, aes(color = status, text = hover_text), size = 3) +
       geom_rect(aes(xmin = -Inf, xmax = Inf, ymin = 0, ymax = input$intersection_width), fill = "grey80", alpha = 0.5, inherit.aes = FALSE) + # Using input
       geom_segment(
         aes(x = -1, y = 0, xend = 15, yend = 0, text = "Traffic Light<br>Position: 0 m"),
