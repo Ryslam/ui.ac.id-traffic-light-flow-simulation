@@ -39,7 +39,7 @@ Model simulasi ini dikembangkan sebagai **model simulasi berbasis waktu diskrit*
     *   `reaction_time`: Waktu yang dibutuhkan pengemudi untuk bereaksi (default: **2 s**).
     *   `acceleration`: Nilai percepatan konstan mobil (default: **1.0 m/s²**). Nilai ini diambil dari asumsi kasar performa mobil keluarga yang mencapai 60 km/jam dalam 20 detik.
     *   `speed_limit`: Kecepatan maksimum yang bisa dicapai (default: **11 m/s**). Nilai ini merupakan konversi dari batas kecepatan umum di area urban, yaitu **40 km/jam**.
-    *   `intersection_width`: Lebar persimpangan yang harus dilewati (default: **12 m**).
+    *   `intersection_width`: Lebar persimpangan yang harus dilewati (default: **12 m**). Nilai ini merepresentasikan persimpangan jalan arteri perkotaan pada umumnya (sekitar 3-4 lajur).
 
 *   **Logika dan Model Fisika Gerakan**
     Gerakan dalam antrean dimodelkan sebagai **reaksi berantai (chain reaction)** yang logikanya diatur sebagai berikut:
